@@ -1,16 +1,62 @@
-# React + Vite
+# Developer Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive React dashboard that displays real-time GitHub profile information and current weather data with light/dark mode toggle.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- GitHub Profile Card with real-time data
+- Current Weather Card with live updates
+- Light/Dark mode toggle with persistent theme
+- Responsive design for all devices
+- Loading states and error handling
 
-## React Compiler
+## APIs Used
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **GitHub API**: https://api.github.com/users/{pshemssa}
+- **Open-Meteo Weather API**: https://open-meteo.com
 
-## Expanding the ESLint configuration
+## Technologies Used
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React
+- Tailwind CSS
+- Fetch API
+- Vite
+
+## Setup Instructions
+
+1. Clone the repository:
+```bash
+git clone https://github.com/pshemssa/developer-dashboard.git
+cd developer-dashboard
+Install dependencies:
+
+bash
+npm install
+
+bash
+npm run dev
+Open your browser and navigate to http://localhost:5173
+
+Deployment
+The project can be deployed on:
+
+
+Netlify
+
+Project Structure
+text
+src/
+├── components/
+│   ├── Navbar.jsx
+│   ├── GitHubCard.jsx
+│   └── WeatherCard.jsx
+├── hooks/
+│   └── useTheme.js
+├── App.jsx
+└── main.jsx
+Screenshots
+[Add screenshots of your dashboard here]
+
+Live Demo
+[Add your deployment link here]
+

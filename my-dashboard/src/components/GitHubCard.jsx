@@ -1,123 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import { useTheme } from './hooks/useTheme';
-import Navbar from './components/Navbar';
-import GitHubCard from './components/GitHubCard';
-import WeatherCard from './components/WeatherCard';
+import React from 'react';
 
-function App() {
-  const { theme, toggleTheme } = useTheme();
-  const [githubData, setGithubData] = useState(null);
-  const [weatherData, setWeatherData] = useState(null);
-  const [githubLoading, setGithubLoading] = useState(true);
-  const [weatherLoading, setWeatherLoading] = useState(true);
-  const [githubError, setGithubError] = useState(null);
-  const [weatherError, setWeatherError] = useState(null);
+const GitHubCard = ({ userData, loading, error }) => {
+  if (loading) {
+    return (
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-colors duration-300">
+        <div className="animate-pulse">
+          <div className="h-6 bg-gray-300 dark:bg-gray-700 rounded w-1/2 mb-4"></div>
+          <div className="space-y-3">
+            <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded"></div>
+            <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded"></div>
+            <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-  // Replace with your GitHub username
-  const GITHUB_USERNAME = 'pshemssa';
+  if (error) {
+    return (
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-colors duration-300">
+        <div className="text-red-500 dark:text-red-400 text-center">
+          <p className="font-semibold">Error loading GitHub data</p>
+          <p className="text-sm mt-2">{error}</p>
+        </div>
+      </div>
+    );
+  }
 
-  // Fetch GitHub Data
-  useEffect(() => {
-    const fetchGitHubData = async () => {
-      try {
-        setGithubLoading(true);
-        const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}`);
-        
-        if (!response.ok) {
-          throw new Error(`GitHub API error: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        setGithubData(data);
-        setGithubError(null);
-      } catch (error) {
-        setGithubError(error.message);
-        console.error('Error fetching GitHub data:', error);
-      } finally {
-        setGithubLoading(false);
-      }
-    };
-
-    fetchGitHubData();
-  }, []);
-
-  // Fetch Weather Data (using OpenWeatherMap API)
-  useEffect(() => {
-    const fetchWeatherData = async () => {
-      try {
-        setWeatherLoading(true);
-        // Using a free weather API - you can replace with OpenWeatherMap if you have an API key
-        const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.7128&longitude=-74.0060&current=temperature_2m,wind_speed_10m,weather_code');
-        
-        if (!response.ok) {
-          throw new Error(`Weather API error: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        
-        // Map weather code to condition
-        const weatherConditions = {
-          0: 'Clear sky',
-          1: 'Mainly clear',
-          2: 'Partly cloudy',
-          3: 'Overcast',
-          45: 'Fog',
-          48: 'Depositing rime fog',
-          51: 'Light drizzle',
-          53: 'Moderate drizzle',
-          55: 'Dense drizzle',
-          61: 'Slight rain',
-          63: 'Moderate rain',
-          65: 'Heavy rain',
-          80: 'Slight rain showers',
-          81: 'Moderate rain showers',
-          82: 'Violent rain showers',
-          95: 'Thunderstorm'
-        };
-
-        const mappedData = {
-          temperature: Math.round(data.current.temperature_2m),
-          condition: weatherConditions[data.current.weather_code] || 'Unknown',
-          windSpeed: Math.round(data.current.wind_speed_10m),
-          location: 'New York, NY'
-        };
-
-        setWeatherData(mappedData);
-        setWeatherError(null);
-      } catch (error) {
-        setWeatherError(error.message);
-        console.error('Error fetching weather data:', error);
-      } finally {
-        setWeatherLoading(false);
-      }
-    };
-
-    fetchWeatherData();
-  }, []);
+  if (!userData) {
+    return null;
+  }
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${
-      theme === 'light' ? 'bg-gray-50' : 'bg-gray-900'
-    }`}>
-      <Navbar theme={theme} toggleTheme={toggleTheme} />
-      
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          <GitHubCard 
-            userData={githubData}
-            loading={githubLoading}
-            error={githubError}
-          />
-          
-          <WeatherCard 
-            weatherData={weatherData}
-            loading={weatherLoading}
-            error={weatherError}
-          />
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-colors duration-300">
+      <div className="flex items-center space-x-4 mb-4">
+        <img
+          src={userData.avatar_url}
+          alt={`${userData.login}'s avatar`}
+          className="w-16 h-16 rounded-full border-2 border-gray-200 dark:border-gray-600"
+        />
+        <div>
+          <h2 className="text-xl font-bold text-gray-800 dark:text-white">
+            {userData.name || userData.login}
+          </h2>
+          <a
+            href={userData.html_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 dark:text-blue-400 hover:underline text-sm"
+          >
+            @{userData.login}
+          </a>
         </div>
-      </main>
+      </div>
+      
+      <div className="grid grid-cols-3 gap-4 text-center">
+        <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+          <div className="text-2xl font-bold text-gray-800 dark:text-white">
+            {userData.public_repos}
+          </div>
+          <div className="text-sm text-gray-600 dark:text-gray-300">Repos</div>
+        </div>
+        <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+          <div className="text-2xl font-bold text-gray-800 dark:text-white">
+            {userData.followers}
+          </div>
+          <div className="text-sm text-gray-600 dark:text-gray-300">Followers</div>
+        </div>
+        <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+          <div className="text-2xl font-bold text-gray-800 dark:text-white">
+            {userData.following}
+          </div>
+          <div className="text-sm text-gray-600 dark:text-gray-300">Following</div>
+        </div>
+      </div>
     </div>
   );
-}
+};
 
-export default App;
+export default GitHubCard;
