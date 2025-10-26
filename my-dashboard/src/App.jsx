@@ -13,7 +13,6 @@ function App() {
   const [githubError, setGithubError] = useState(null);
   const [weatherError, setWeatherError] = useState(null);
 
-  // Replace with your GitHub username
   const GITHUB_USERNAME = 'pshemssa';
 
   // Fetch GitHub Data
@@ -46,7 +45,7 @@ function App() {
     const fetchWeatherData = async () => {
       try {
         setWeatherLoading(true);
-        // Using a free weather API - you can replace with OpenWeatherMap if you have an API key
+        
         const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.7128&longitude=-74.0060&current=temperature_2m,wind_speed_10m,weather_code');
         
         if (!response.ok) {
@@ -79,7 +78,7 @@ function App() {
           temperature: Math.round(data.current.temperature_2m),
           condition: weatherConditions[data.current.weather_code] || 'Unknown',
           windSpeed: Math.round(data.current.wind_speed_10m),
-          location: 'New York, NY'
+          location: 'Kigali City'
         };
 
         setWeatherData(mappedData);
