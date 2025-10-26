@@ -17,7 +17,6 @@ const Navbar = ({ theme, toggleTheme }) => {
                      transition-colors duration-300 flex items-center space-x-2"
           >
             <span>{theme === 'light' ? '🌙' : '☀️'}</span>
-            <span>{theme === 'light' ? 'Dark' : 'Light'}</span>
           </button>
         </div>
       </div>
