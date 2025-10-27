@@ -46,7 +46,7 @@ function App() {
       try {
         setWeatherLoading(true);
         
-        const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.7128&longitude=-74.0060&current=temperature_2m,wind_speed_10m,weather_code');
+        const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-1.95368&longitude=30.0606&current=temperature_2m,wind_speed_10m,weather_code');
         
         if (!response.ok) {
           throw new Error(`Weather API error: ${response.status}`);
