@@ -54,9 +54,8 @@ src/
 │   └── useTheme.js
 ├── App.jsx
 └── main.jsx
-Screenshots
-[Add screenshots of your dashboard here]
+
 
 Live Demo
-[Add your deployment link here]
+https://weather1dashb.netlify.app/ 
 
